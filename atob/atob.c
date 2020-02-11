@@ -26,20 +26,13 @@ void get(char *s) {
 int atoi(char *s) {
 	int n = 0;
 	int b = 10;
-	for (; *s != '\0'; s++) {
-        if (*s == '-') {
-            n 
-        }
+	int sign = 1;
+	if (*s == '-') {
+		sign = -1;
+		s++;
+	}
+	for (; *s != '\0' && *s != '-'; s++)
 		n = n * b + *s - '0';
-		printf("n is now: %d\n", n);
-    }
-	return n;
-}
-
-unsigned long atol(char *s) {
-	unsigned long n = 0;
-	unsigned long b = 10;
-	for (; *s != '\0'; s++)
-		n = n * b + *s - '0';
+    n = n * sign;
 	return n;
 }

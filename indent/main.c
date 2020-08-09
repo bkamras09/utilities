@@ -5,38 +5,40 @@
 
 #define MAX		1000
 
-void get_input(char *in);
-void indent(char *in);
+char * get_input(char *input);
+char * indent(char *input, char *output);
 
 int main (void) {
 	char input[MAX];
+	char output[MAX];
 	printf("Formatting incoming text stream\n");
 	get_input(input);
-	/*indent(input); */
-	printf("%c\n", input);
+	indent(input, output);
+	printf("output: ", "%s", output, "\n");
 }
 
-void get_input(char *s) {
+/* get input from stdin and return a pointer to the input array */
+char * get_input(char *s) {
 	int c;
 	char *ps = s;
-	for (; *ps < MAX-1 && (c = getchar()) != EOF; ps++) {
-	 *ps = c;
-	}
+	for (; *ps < MAX - 1 && (c = getchar()) != EOF; ps++)
+		*ps = c;
 	*ps = '\0';
+	return s;
 }
 
-void indent(char *in) {
+char * indent(char *in, char *out) {
 	char *inp = in;
-	char out[MAX - 1];
 	char *outp = out;
-	for (char *inp = in; *inp < strlen(in); inp++) {
+	printf("in: %s", in);
+	while (*inp < strlen(in)) {
 		if (*inp != '\n') {
 			*outp = *inp;
-			printf("out", "%c\n", out);
-			outp++;
+			outp++, inp++;
 		} else {
 			*outp = '\t';
-			outp++;
+			outp++, inp++;
 		}
 	}
+	return out;
 }

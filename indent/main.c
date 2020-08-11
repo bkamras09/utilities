@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <X11/Xlib.h>
 
 #define MAX		1000 /* maximum allowed array length to indent */
 
@@ -35,6 +36,7 @@ char * indent(char *in, char *out) {
 	char *inp = in;
 	char *outp = out;
 
+	*outp++ = '\t';
 	for (; *inp != '\0'; outp++, inp++){
 		if (*inp != '\n'){
 			*outp = *inp;

@@ -6,12 +6,12 @@
 #define MAX		1000 /* maximum allowed array length to indent */
 
 char * get_input(char *input);
+char * scan_input(char *input);
 char * indent(char *input, char *output);
 
 int main (void) {
 	char input[MAX];
 	char output[MAX];
-	printf("Formatting incoming text stream\n");
 	get_input(input);
 	indent(input, output);
 	printf("output:\n%s\n", output);
@@ -28,19 +28,19 @@ char * get_input(char *s) {
 	return s;
 }
 
+char * scan_input(char *s){
+}
+
 char * indent(char *in, char *out) {
 	char *inp = in;
 	char *outp = out;
 
-	while (*inp != '\0') {
-		if (*inp != '\n') {
+	for (; *inp != '\0'; outp++, inp++){
+		if (*inp != '\n'){
 			*outp = *inp;
-			outp++, inp++;
 		} else {
-			*outp = *inp;
-			*outp++;
+			*outp++ = *inp;
 			*outp = '\t';
-			outp++, inp++;
 		}
 	}
 	return out;

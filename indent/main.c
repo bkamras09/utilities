@@ -32,17 +32,34 @@ char * get_input(char *s) {
 char * scan_input(char *s){
 }
 
+/* TODO: make indent increment by length of each array element using sizeof() */
 char * indent(char *in, char *out) {
 	char *inp = in;
 	char *outp = out;
 
-	*outp++ = '\t';
+	*outp = '\t';
+	outp++;
 	for (; *inp != '\0'; outp++, inp++){
 		if (*inp != '\n'){
 			*outp = *inp;
 		} else {
-			*outp++ = *inp;
+			*outp = *inp;
+			outp++;
 			*outp = '\t';
+		}
+	}
+	return out;
+}
+
+char * outdent(char *in, char *out){
+	char *inp = in;
+	char *outp = out;
+
+	for (; *inp != '\0'; outp++, inp++){
+		if (*inp == '\t'){
+			inp++;
+		} else {
+			*outp = *inp;
 		}
 	}
 	return out;

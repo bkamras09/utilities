@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define MAX		1000
+#define MAX		1000 /* maximum allowed array length to indent */
 
 char * get_input(char *input);
 char * indent(char *input, char *output);
@@ -14,13 +14,14 @@ int main (void) {
 	printf("Formatting incoming text stream\n");
 	get_input(input);
 	indent(input, output);
-	printf("output: ", "%s", output, "\n");
+	printf("output:\n%s\n", output);
 }
 
 /* get input from stdin and return a pointer to the input array */
 char * get_input(char *s) {
 	int c;
 	char *ps = s;
+
 	for (; *ps < MAX - 1 && (c = getchar()) != EOF; ps++)
 		*ps = c;
 	*ps = '\0';
@@ -30,12 +31,14 @@ char * get_input(char *s) {
 char * indent(char *in, char *out) {
 	char *inp = in;
 	char *outp = out;
-	printf("in: %s", in);
-	while (*inp < strlen(in)) {
+
+	while (*inp != '\0') {
 		if (*inp != '\n') {
 			*outp = *inp;
 			outp++, inp++;
 		} else {
+			*outp = *inp;
+			*outp++;
 			*outp = '\t';
 			outp++, inp++;
 		}

@@ -2,16 +2,17 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 /* #include <X11/Xlib.h> */
 
-#define MAX		1000 /* maximum allowed array length to indent */
+#define MAX		100 /* maximum allowed array length to indent */
 
 char * get_input(char *input);
 char * scan_input(char *input);
 char * indent(char *input, char *output);
 char * outdent(char *input, char *output);
 
-int main (void) {
+int main (int argc, char *argv[]) {
 	char input[MAX];
 	char output[MAX];
 	char outdented_output[MAX];
@@ -71,3 +72,21 @@ char * outdent(char *in, char *out){
 	}
 	return out;
 }
+
+/* random function from 4chan that I need to test */
+/*
+char *indent(char *in)
+{
+    char *out, *q, *p, *p1;
+    size_t c = 0;
+    for (p = in; (p = strstr(p, "\n")); p++) c++;
+    out = malloc(strlen(in) - 1 * c + 2 * c + 2);
+    q = out; memcpy(q, "\t", 1); q++;
+    for (p = in; (p = strstr(p1 = p, "\n")); p++) {
+        memcpy(q, p1, p - p1); q += p - p1;
+        memcpy(q, "\n\t", 2); q += 2;
+    }
+    memcpy(q, p1, strlen(p1) + 1);
+    return out;
+}
+*/

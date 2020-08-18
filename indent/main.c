@@ -12,17 +12,30 @@ char * scan_input(char *input);
 char * indent(char *input, char *output);
 char * outdent(char *input, char *output);
 
-int main (int argc, char *argv[]) {
-	char input[MAX];
-	char output[MAX];
-	char outdented_output[MAX];
-	get_input(input);
-	/* scanf("%s", &input[MAX]); */
-	indent(input, output);
-	outdent(input, outdented_output);
-	printf("\nindented output:\n%s\n", output);
-	printf("outdented output: \n%s\n", outdented_output);
-	
+int main (int argc, char *argv[]){
+	FILE *fp;
+	void filecopy(FILE *, FILE *);
+
+	if (argc == 1)
+		filecopy(stdin, stdout);
+	else{
+		while(--argc > 0){
+			if((fp = fopen *++argv, "r")) == NULL){
+				printf("ted: can\'t open %s", *argv);
+				return 1;
+			} else{
+				filecopy(fp, stdout);
+				fclose(fp);
+			}
+		}
+	}
+	return 0;
+}
+
+void filecopy(FILE *ifp, FILE *ofp){
+	int c;
+	while ((c = getc(ifp)) != EOF)
+		putc(c, ofp);
 }
 
 /* get input from stdin and return a pointer to the input array */

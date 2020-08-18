@@ -13,6 +13,7 @@ char * indent(char *input, char *output);
 char * outdent(char *input, char *output);
 
 int main (int argc, char *argv[]) {
+	printf("Welcome to ted, a simple text editor.\n");
 	char input[MAX];
 	char output[MAX];
 	char outdented_output[MAX];

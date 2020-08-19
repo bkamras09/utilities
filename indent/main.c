@@ -5,7 +5,7 @@
 #include <stdlib.h>
 /* #include <X11/Xlib.h> */
 
-#define MAX		100 /* maximum allowed array length to indent */
+#define MAX		1000 /* maximum allowed array length to indent */
 #define LENGTH	255 /* maximum allowed file name length */
 
 char * get_input(char *input);
@@ -15,32 +15,31 @@ char * outdent(char *input, char *output);
 void filecopy(FILE *ifp, FILE *ofp);
 
 int main (int argc, char *argv[]){
-	/* If a file is specified in argv, open a pointer to that file.  If not, input is pulled from stdin and when EOF is found, requests a file name. */
-
-	printf("Welcome to ted, the tiny text editor.\n");
-
 	FILE *input_file;
 	char input[MAX];
-	char filename[LENGTH];
 	if (argc > 1){
-		input_file = fopen(*argv[1], "r");
-		printf("Input file is: %s", *argv[1]);
+		input_file = fopen(argv[1], "r+");
+	} else{
+		printf("usage: ted filename\n");
+		return 0;
+	}
+	printf("Welcome to ted, the tiny text editor.\n");
+	int c;
+    while ((c = getc(input_file)) != EOF){
+        putchar(c);
 	}
 	get_input(input);
-	if(strchr(*input, EOF)){
-		printf("Name of new file: ");
-		scanf("%s", filename);
-		fclose(input_file);
-	}
+	fputs(input, input_file);
+    fclose(input_file);
 	return 0;
 }
 
 /* get input from stdin and return a pointer to the input array */
 char * get_input(char *s) {
-	unsigned long int c;
+	unsigned int c;
 	char *ps = s;
 
-	for (; *ps < MAX - 1 && (c = getchar()) != EOF; ps++)
+	for (; strlen(s) < MAX - 1 && (c = getchar()) != EOF; ps++)
 		*ps = c;
 	*ps = '\0';
 	return s;
@@ -63,6 +62,7 @@ char * indent(char *in, char *out) {
 		}
 	}
 	return out;
+
 }
 
 /* TODO: make outdent increment by length of each array element */

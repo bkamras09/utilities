@@ -1,59 +1,58 @@
-/* OVERVIEW: indents an incoming text stream and puts the resulting text stream back into the same place it was in the source file. */
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 /* #include <X11/Xlib.h> */
 
-#define MAX		1000 /* maximum allowed array length to indent */
-#define LENGTH	255 /* maximum allowed file name length */
+#define MAX			1000 /* text buffer size */
+#define BUF			10000
+#define NAMELENGTH	63 /* maximum allowed file name length */
 #define IN 2
 #define OUT 3
 #define NS from[i] != '\0'
 
-char * get_input(char *input);
-char * scan_input(char *input);
+void get_input(char *input, int lim);
 char * indent(char *input, char *output);
 char * outdent(char *input, char *output);
 void uncom(char to[], char from[]);
-void filecopy(FILE *ifp, FILE *ofp);
 
 int main (int argc, char *argv[]){
-	FILE *input_file;
+	FILE *fp;
 	char input[MAX];
-	if (argc > 1){
-		printf("Welcome to ted, the tiny text editor.\n");
+	printf("Welcome to ted, the tiny editor.\n");
+
+	if (argc == 2){
 		if (access(argv[1], F_OK) != -1){
-			printf("File exists.  Opening it now...\n");
-			input_file = fopen(argv[1], "r+");
+			fp = fopen(argv[1], "r+");
 		} else {
-			printf("File does not exist.  Creating it now...\n");
-			input_file = fopen(argv[1], "w+");
+			fp = fopen(argv[1], "w+");
 		}
-	} else{
-		printf("usage: ted filename\n");
-		return 0;
+		int c;
+		while ((c = getc(fp)) != EOF){
+			putchar(c);
+		}
 	}
-	int c;
-    while ((c = getc(input_file)) != EOF){
-        putchar(c);
+
+	fgets(input, MAX, stdin);
+
+	if (argc == 1){
+		char filename[NAMELENGTH];
+		printf("\nEnter file name: ");
+		fgets(filename, NAMELENGTH, stdin);
+		fp = fopen(filename, "w");
 	}
-	get_input(input);
-	fputs(input, input_file);
-    fclose(input_file);
+	fputs(input, fp);
+    fclose(fp);
 	return 0;
 }
 
 /* get input from stdin and return a pointer to the input array */
-char * get_input(char *s) {
-	unsigned int c;
+void get_input(char *s, int lim) {
+	int c;
 	char *ps = s;
-
-	for (; strlen(s) < MAX - 1 && (c = getchar()) != EOF; ps++)
-		*ps = c;
+	while (--lim > 0 && (c = getchar()) != EOF)
+		*ps++ = c;
 	*ps = '\0';
-	return s;
 }
 
 /* TODO: make indent increment by length of each array element */
